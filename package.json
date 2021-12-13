@@ -1,0 +1,26 @@
+{
+  "name": "cadi",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "less": "^4.1.2",
+    "typescript": "^4.5.3",
+    "vant": "^3.3.6",
+    "vue": "^3.2.23",
+    "vue-router": "^4.0.12"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.10.2",
+    "less-loader": "^10.2.0",
+    "postcss-px-to-viewport": "^1.1.1",
+    "sass": "^1.44.0",
+    "stylus": "^0.55.0",
+    "ts-import-plugin": "^2.0.0",
+    "vite": "^2.7.0",
+    "vite-plugin-style-import": "^1.4.0"
+  }
+}
