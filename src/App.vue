@@ -1,24 +1,48 @@
-<script>
+<script lang="ts">
+import Router from './router/index';
+import { computed, defineComponent } from 'vue';
+import Header from "@components/Header.vue";
+import Footer from "@components/Footer.vue";
 
-import { Tabbar, TabbarItem } from 'vant';
 
-export default {
+export default defineComponent({
   components: {
-    [Tabbar.name]: Tabbar,
-    [TabbarItem.name]: TabbarItem
+    Header,
+    Footer
+  },
+  setup() {
+    let routerInfo = computed(
+      (): any => {
+        return <any>Router.currentRoute.value;
+      }
+    );
+
+
+    return {
+      routerInfo
+    }
   }
-}
+})
 </script>
 
 <template>
-  <RouterView />
-  <van-tabbar v-model="active">
-    <van-tabbar-item icon="home-o">发现</van-tabbar-item>
-    <van-tabbar-item icon="search">IQ</van-tabbar-item>
-    <van-tabbar-item icon="friends-o">活动</van-tabbar-item>
-    <van-tabbar-item icon="setting-o">我的</van-tabbar-item>
-  </van-tabbar>
+  <div>
+    <Header :routerName="routerInfo.name"></Header>
+    <RouterView />
+    <Footer v-show="routerInfo.meta.tabBar"></Footer>
+  </div>
 </template>
 
 <style lang="less">
+.flex-c {
+  display: flex;
+  flex-direction: column;
+}
+.flex-r {
+  display: flex;
+  flex-direction: row;
+}
+.pad {
+  padding: 0 20px;
+}
 </style>

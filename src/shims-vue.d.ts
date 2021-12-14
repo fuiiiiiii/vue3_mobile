@@ -3,3 +3,5 @@ declare module '*.vue' {
     const componentOptions: ComponentOptions;
     export default componentOptions;
 }
+declare module '*.jpg';
+declare module '*.png';
