@@ -2,11 +2,7 @@
     <div class="home">
         <van-tabs v-model="active" :animated="true" :swipeable="true">
             <van-tab title="推荐">
-                <div class="banner">
-                    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-                        <van-swipe-item>1</van-swipe-item>
-                    </van-swipe>
-                </div>
+                <Banner></Banner>
             </van-tab>
             <van-tab title="LYRIQ"></van-tab>
             <van-tab title="同道之选"></van-tab>
@@ -18,15 +14,15 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import Header from "@components/Header.vue";
-import { Tab, Tabs, Swipe, SwipeItem } from 'vant';
+import { Tab, Tabs } from 'vant';
+import Banner from "./components/Banner.vue"
 
 export default defineComponent({
     components: {
         Header,
         [Tab.name]: Tab,
         [Tabs.name]: Tabs,
-        [Swipe.name]: Swipe,
-        [SwipeItem.name]: SwipeItem
+        Banner
     },
     setup() {
         const active = ref(0);

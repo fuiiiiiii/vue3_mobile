@@ -2,16 +2,16 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
-        redirect: '/home',
-        name: "凯迪拉克IQ"
+        redirect: '/home'
     },
     {
         path: '/home',
-        name: "凯迪拉克IQ",
+        name: "Home",
         meta: {
-            tabBar: true
+            tabBar: true,
+            title: '凯迪拉克IQ'
         },
-        component: () => import('../view/Home.vue')
+        component: () => import('../view/find/Home.vue')
     }
 ];
 

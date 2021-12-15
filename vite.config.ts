@@ -6,7 +6,19 @@ const { resolve } = require("path");
 console.log(resolve(__dirname, './src'))
 // https://vitejs.dev/config/
 export default defineConfig({
- 
+  server: {
+    port: 8089, // 设置服务启动端口号
+    open: true,
+    cors: true, // 允许跨域
+    // 设置代理，根据项目实际情况配置
+    proxy: {
+      "/cadinea": {
+        target: "https://apigatewayqa.sgmlink.com:3302/",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),

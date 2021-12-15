@@ -27,7 +27,7 @@ export default defineComponent({
 
 <template>
   <div>
-    <Header :routerName="routerInfo.name"></Header>
+    <Header :routerName="routerInfo.meta.title"></Header>
     <RouterView />
     <Footer v-show="routerInfo.meta.tabBar"></Footer>
   </div>
