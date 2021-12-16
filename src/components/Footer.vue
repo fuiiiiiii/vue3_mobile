@@ -1,6 +1,6 @@
 <template>
     <div class="footer">
-        <van-tabbar>
+        <van-tabbar :placeholder="true"> 
             <van-tabbar-item to="/home" icon="home-o">发现</van-tabbar-item>
             <van-tabbar-item icon="search">IQ</van-tabbar-item>
             <van-tabbar-item icon="friends-o">活动</van-tabbar-item>

@@ -13,9 +13,10 @@ export async function apiGetBanner(params: bannerParams): Promise<any> {
     });
 
     if (res.statusCode == 200) {
-        return res.data
+        return res.data;
     } else {
         console.log(`apiGetBanner response error: ${res.message}`)
+        return false;
     };
 }
 
@@ -37,8 +38,9 @@ export async function apiGetBbs(params: bbsParams):Promise<any> {
     });
 
     if (res.statusCode == 200) {
-        return res.data
+        return res.data;
     } else {
         console.log(`apiGetBanner response error: ${res.message}`)
+        return false;
     };
 }

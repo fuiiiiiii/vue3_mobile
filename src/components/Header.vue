@@ -1,9 +1,7 @@
 <template>
     <div class="header">
-        <van-nav-bar title="标题" left-arrow :border="false">
-            <template #title>
-                {{routerName}}
-            </template>
+        <van-nav-bar title="标题" left-arrow :border="false" @click-left="back">
+            <template #title>{{ routerName }}</template>
             <template #right>
                 <img class="search-icon" src="@/assets/icon_top_search@2x.png" />
             </template>
@@ -14,11 +12,21 @@
 <script lang="ts">
 import { NavBar } from 'vant';
 import { defineComponent } from 'vue';
+import Route from '@/router/index';
 
 export default defineComponent({
     props: ["routerName", "isHome"],
     components: {
         [NavBar.name]: NavBar
+    },
+    setup() {
+        const back = (): void => {
+            Route.back();
+        };
+
+        return {
+            back
+        }
     }
 })
 </script>
@@ -38,7 +46,7 @@ export default defineComponent({
         height: 20px;
         vertical-align: bottom;
     }
-   :deep(.van-nav-bar) {
+    :deep(.van-nav-bar) {
         padding: $padding-defalut-left-right;
     }
 }

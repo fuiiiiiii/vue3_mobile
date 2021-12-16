@@ -7,13 +7,13 @@
                 <span v-html="bbsInfo.timespan"></span>
 
                 <div class="flex-r">
-                    <div class="opt-icon flex-r">
+                    <div class="opt-icon flex-r" v-cadi-click:auth="like">
                         <img src="@/assets/icon_like_w@3x.png" />
-                        <span>22</span>
+                        <span>{{bbsInfo.praiseCount}}</span>
                     </div>
                     <div class="opt-icon flex-r">
                         <img src="@/assets/icon_comments_w@3x.png" />
-                        <span>22</span>
+                        <span>{{bbsInfo.commentCount}}</span>
                     </div>
                 </div>
             </div>
@@ -45,6 +45,15 @@ export default defineComponent({
     },
     components: {
         User
+    },
+    setup() {
+        const like = function (str: any): void {
+            console.log('like')
+        };
+
+        return {
+            like
+        }
     }
 })
 </script>

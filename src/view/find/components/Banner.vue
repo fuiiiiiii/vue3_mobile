@@ -24,6 +24,7 @@ export default defineComponent({
 
         const getBanner = async () => {
             const res = await apiGetBanner({ pageNum: 1, pageSize: 6, type: 0 });
+            if (!res) return false;
             bannerList.value = res.rows;
         };
 

@@ -12,6 +12,15 @@ const routes: Array<RouteRecordRaw> = [
             title: '凯迪拉克IQ'
         },
         component: () => import('../view/find/Home.vue')
+    },
+    {
+        path: '/login',
+        name: "Login",
+        meta: {
+            tabBar: false,
+            title: '登录'
+        },
+        component: () => import('../view/Login.vue')
     }
 ];
 

@@ -58,6 +58,8 @@ export default defineComponent({
                 types: [1]
             });
 
+            if (!res) return false;
+            
             let { rows, nextPage, pages } = res;
             postsParams.pageNum = nextPage;
             postsParams.maxPage = pages;
@@ -78,6 +80,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .home {
+    padding-bottom: 20px;
     :deep(.van-tabs__content) {
         padding: $padding-defalut-left-right;
         padding-top: 20px;
