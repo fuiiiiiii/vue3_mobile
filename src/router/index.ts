@@ -21,13 +21,22 @@ const routes: Array<RouteRecordRaw> = [
             title: '登录'
         },
         component: () => import('../view/Login.vue')
+    },
+    {
+        path: '/posts/detail',
+        name: "PostsDetail",
+        meta: {
+            tabBar: false,
+            title: '凯迪拉克IQ'
+        },
+        component: () => import('../view/find/posts/Detail.vue')
     }
 ];
 
 const router = createRouter({
-    scrollBehavior: () => ({
-        top: 0,
-    }),
+    // scrollBehavior: () => ({
+    //     top: 0,
+    // }),
     history: createWebHashHistory(), //替代之前的mode，是必须的
     routes
 });

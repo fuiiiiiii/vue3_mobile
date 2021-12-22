@@ -7,18 +7,22 @@
                 <span v-html="bbsInfo.timespan"></span>
 
                 <div class="flex-r">
-                    <div class="opt-icon flex-r" v-cadi-click:auth="like">
+                    <div
+                        class="opt-icon flex-r"
+                        :data-params="JSON.stringify({ id: bbsInfo.id, praise: bbsInfo.praisedFlag })"
+                        v-cadi-click:auth="like"
+                    >
                         <img src="@/assets/icon_like_w@3x.png" />
-                        <span>{{bbsInfo.praiseCount}}</span>
+                        <span>{{ bbsInfo.praiseCount }}</span>
                     </div>
                     <div class="opt-icon flex-r">
                         <img src="@/assets/icon_comments_w@3x.png" />
-                        <span>{{bbsInfo.commentCount}}</span>
+                        <span>{{ bbsInfo.commentCount }}</span>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="content">
+        <div class="content" v-cadi-click="toDetail" :data-params="bbsInfo.id">
             <div class="title">{{ bbsInfo.title }}</div>
             <div class="desc">{{ bbsInfo.content }}</div>
 
@@ -35,6 +39,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import User from './User.vue';
+import { useRouter } from "vue-router";
+import { apiLike } from "@/model/find";
+import { updateFiled } from "@/utils/index";
+
+import { findStore } from "@/store/find";
 
 export default defineComponent({
     props: {
@@ -46,13 +55,46 @@ export default defineComponent({
     components: {
         User
     },
-    setup() {
-        const like = function (str: any): void {
-            console.log('like')
+    setup(props) {
+        const router = useRouter();
+
+        const like = async function (params: any): Promise<void> {
+
+            let _data = JSON.parse(params);
+
+            _data.praise = _data.praise === '1' ? '0' : '1';
+
+            _data['type'] = '1';
+
+            const res = await apiLike(_data);
+
+            if (res) {
+                
+                const store = findStore();
+                let postsList = store.postsList;
+
+                let { praiseCount } = res;
+
+                const { bbsInfo } = props;
+                let { praisedFlag, id } = bbsInfo;
+
+                postsList = updateFiled({
+                    praiseCount: praiseCount,
+                    praisedFlag: praisedFlag == '0' ? '1' : '0'
+                }, postsList, { id });
+
+            }
+        };
+
+        const toDetail = (id: string) => {
+            if (id) {
+                router.push({ name: "PostsDetail", query: { id } });
+            };
         };
 
         return {
-            like
+            like,
+            toDetail
         }
     }
 })
@@ -117,6 +159,16 @@ export default defineComponent({
             font-size: 16px;
             color: #000000;
             line-height: 24px;
+        }
+        .title,
+        .desc {
+            text-overflow: -o-ellipsis-lastline;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
         .cut {
             width: 100%;

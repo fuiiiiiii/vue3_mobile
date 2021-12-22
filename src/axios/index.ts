@@ -7,7 +7,11 @@ const axios = Axios.create({
 
 axios.interceptors.request.use((config: AxiosRequestConfig) => {
     if (config.headers) {
-        config.headers.token = localStorage["token"]
+        config.headers.token = localStorage["token"];
+        config.headers.brand = '2';
+        if(localStorage['userToken']) {
+            config.headers.userToken = localStorage['userToken']
+        };
     }
     return config;
 }, (error: any) => {

@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <van-nav-bar title="标题" left-arrow :border="false" @click-left="back">
+        <van-nav-bar title="标题" fixed placeholder left-arrow :border="false" @click-left="back">
             <template #title>{{ routerName }}</template>
             <template #right>
                 <img class="search-icon" src="@/assets/icon_top_search@2x.png" />

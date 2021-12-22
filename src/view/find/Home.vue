@@ -3,8 +3,8 @@
         <van-tabs v-model="chooseTab" :animated="true" :swipeable="true">
             <van-tab title="推荐">
                 <Banner></Banner>
-                <div class="bbs" v-for="item in postsList" :key="item.id">
-                    <BbsItem  :bbs-info="item"></BbsItem>
+                <div class="bbs" v-for="item in store.postsList" :key="item.id">
+                    <BbsItem :bbs-info="item"></BbsItem>
                 </div>
             </van-tab>
             <van-tab title="LYRIQ"></van-tab>
@@ -21,6 +21,7 @@ import { Tab, Tabs } from 'vant';
 import Banner from "./components/Banner.vue";
 import BbsItem from "@components/BbsItem.vue";
 import { apiGetBbs } from "@/model/find";
+import { findStore } from "@/store/find";
 
 export default defineComponent({
     components: {
@@ -32,11 +33,15 @@ export default defineComponent({
     },
     setup() {
         const chooseTab = ref(0);
+        const store = findStore();
+
+        console.log(store)
+
         let postsList = ref<Array<any>>([]);
 
         let postsParams = {
             pageNum: 1,
-            pageSize: 10,
+            pageSize: 20,
             maxPage: 1
         }
 
@@ -47,7 +52,7 @@ export default defineComponent({
             };
 
             const res: any = await apiGetBbs({
-                bbsSectionId: "11",
+                bbsSectionId: "423",
                 isOrderByEssenceFlag: 1,
                 isOrderByTopFlag: 1,
                 lastDate: "",
@@ -59,19 +64,19 @@ export default defineComponent({
             });
 
             if (!res) return false;
-            
+
             let { rows, nextPage, pages } = res;
             postsParams.pageNum = nextPage;
             postsParams.maxPage = pages;
 
-            postsList.value = postsList.value.concat(rows);
+            store.postsList = postsList.value.concat(rows);
         }
 
         getPosts();
 
         return {
             chooseTab,
-            postsList
+            store,
         }
     }
 

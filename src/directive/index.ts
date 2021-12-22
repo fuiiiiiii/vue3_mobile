@@ -1,19 +1,26 @@
-import { Directive, App } from 'vue';
+import { Directive, App, DirectiveBinding } from 'vue';
 import Route from '../router/index';
 
 const cadiClick: Directive = {
 
-    mounted(el: HTMLElement, binding) {
+    mounted(el: HTMLElement, binding: DirectiveBinding) {
 
         el.onclick = () => {
-            console.log(binding)
+
             const { arg, value } = binding;
+
             if (arg === 'auth' && !localStorage["userToken"]) {
                 return Route.push('/login');
             };
 
             if (typeof value == 'function') {
-                value();
+
+                let parmas = null;
+                if (el.dataset && el.dataset.params) {
+                    parmas = el.dataset.params;
+                }
+
+                value(parmas);
             }
         }
     }

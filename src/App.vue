@@ -45,4 +45,12 @@ export default defineComponent({
 .pad {
   padding: 0 20px;
 }
+.rich-text {
+  font-size: 16px;
+  color: #000000;
+line-height: 28px;
+  img,video {
+    width: 100%;
+  }
+}
 </style>
