@@ -42,14 +42,24 @@ export default defineComponent({
   display: flex;
   flex-direction: row;
 }
+
+.a-i-center {
+  align-items: center;
+}
+
+.j-c-between {
+  justify-content: space-between;
+}
+
 .pad {
   padding: 0 20px;
 }
 .rich-text {
   font-size: 16px;
   color: #000000;
-line-height: 28px;
-  img,video {
+  line-height: 28px;
+  img,
+  video {
     width: 100%;
   }
 }

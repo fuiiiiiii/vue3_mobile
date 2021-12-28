@@ -4,10 +4,12 @@ import { defineComponent, ref } from 'vue';
 import { apiGetDetail } from '@/model/find';
 import { useRoute } from "vue-router";
 import User from "@components/User.vue";
+import Comment  from '@components/comment/Comment.vue';
 
 export default defineComponent({
     components: {
-        User
+        User,
+        Comment
     },
     setup() {
         const route = useRoute();
@@ -55,6 +57,8 @@ export default defineComponent({
         <User :user="detail.user"></User>
 
         <div class="rich-text" v-html="detail.detail"></div>
+
+        <comment></comment>
     </div>
 </template>
 

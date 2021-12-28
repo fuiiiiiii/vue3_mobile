@@ -1,34 +1,35 @@
 <template>
-    <div v-if="bbsInfo.images" class="bbs-item">
-        <User :user="bbsInfo.user"></User>
+    <div v-if="bbs.images" class="bbs-item">
+        <User :user="bbs.user"></User>
         <div class="bbs-pic">
-            <img class="thumbnail" :src="bbsInfo.images[0].imgPath" />
+            <img class="thumbnail" :src="bbs.images[0].imgPath" />
             <div class="opt flex-r">
-                <span v-html="bbsInfo.timespan"></span>
+                <span v-html="bbs.timespan"></span>
 
                 <div class="flex-r">
                     <div
                         class="opt-icon flex-r"
-                        :data-params="JSON.stringify({ id: bbsInfo.id, praise: bbsInfo.praisedFlag })"
+                        :data-params="JSON.stringify({ id: bbs.id, praise: bbs.praisedFlag })"
                         v-cadi-click:auth="like"
                     >
-                        <img src="@/assets/icon_like_w@3x.png" />
-                        <span>{{ bbsInfo.praiseCount }}</span>
+                        <like-btn :praisedFlag="bbs.praisedFlag"></like-btn>
+                        <!-- <img :src="likePic" /> -->
+                        <span>{{ bbs.praiseCount }}</span>
                     </div>
                     <div class="opt-icon flex-r">
                         <img src="@/assets/icon_comments_w@3x.png" />
-                        <span>{{ bbsInfo.commentCount }}</span>
+                        <span>{{ bbs.commentCount }}</span>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="content" v-cadi-click="toDetail" :data-params="bbsInfo.id">
-            <div class="title">{{ bbsInfo.title }}</div>
-            <div class="desc">{{ bbsInfo.content }}</div>
+        <div class="content" v-cadi-click="toDetail" :data-params="bbs.id">
+            <div class="title">{{ bbs.title }}</div>
+            <div class="desc">{{ bbs.content }}</div>
 
             <div class="cut"></div>
 
-            <div class="hot-comment" v-for="item in bbsInfo.commentList" :key="item.id">
+            <div class="hot-comment" v-for="item in bbs.commentList" :key="item.id">
                 <User :user="item.user" size="small"></User>
                 <div>{{ item.commentContent }}</div>
             </div>
@@ -37,26 +38,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, watch, ref, computed } from 'vue';
 import User from './User.vue';
 import { useRouter } from "vue-router";
 import { apiLike } from "@/model/find";
 import { updateFiled } from "@/utils/index";
-
+import LikeBtn from "./LikeBtn.vue";
 import { findStore } from "@/store/find";
 
 export default defineComponent({
     props: {
         bbsInfo: {
-            type: Object,
-            default: {}
+            type: Object
         }
     },
     components: {
-        User
+        User,
+        LikeBtn
     },
     setup(props) {
         const router = useRouter();
+
+        let bbs = computed(() => {
+            if (!props.bbsInfo) return {};
+
+            return props.bbsInfo;
+        });
 
         const like = async function (params: any): Promise<void> {
 
@@ -69,13 +76,14 @@ export default defineComponent({
             const res = await apiLike(_data);
 
             if (res) {
-                
+
                 const store = findStore();
                 let postsList = store.postsList;
 
                 let { praiseCount } = res;
 
-                const { bbsInfo } = props;
+                const bbsInfo = bbs.value;
+
                 let { praisedFlag, id } = bbsInfo;
 
                 postsList = updateFiled({
@@ -83,7 +91,7 @@ export default defineComponent({
                     praisedFlag: praisedFlag == '0' ? '1' : '0'
                 }, postsList, { id });
 
-            }
+            };
         };
 
         const toDetail = (id: string) => {
@@ -94,7 +102,8 @@ export default defineComponent({
 
         return {
             like,
-            toDetail
+            toDetail,
+            bbs
         }
     }
 })

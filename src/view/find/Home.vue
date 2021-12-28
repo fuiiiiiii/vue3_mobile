@@ -33,7 +33,7 @@ export default defineComponent({
     },
     setup() {
         const chooseTab = ref(0);
-        const store = findStore();
+        const store = ref(findStore());
 
         console.log(store)
 
@@ -69,7 +69,7 @@ export default defineComponent({
             postsParams.pageNum = nextPage;
             postsParams.maxPage = pages;
 
-            store.postsList = postsList.value.concat(rows);
+            store.value.postsList = postsList.value.concat(rows);
         }
 
         getPosts();

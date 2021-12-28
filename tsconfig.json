@@ -6,6 +6,7 @@
         "jsx": "preserve",
         "moduleResolution": "node",
         "baseUrl": "./",
+        "types": ["node"],
         "paths": {
             "@/*":["./src/*"],
             "@components/*":["./src/components/*"]
