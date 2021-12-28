@@ -1,15 +1,15 @@
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 import { apiGetDetail } from '@/model/find';
 import { useRoute } from "vue-router";
 import User from "@components/User.vue";
-import Comment  from '@components/comment/Comment.vue';
+import CommentList from '@components/comment/CommentList.vue';
 
 export default defineComponent({
     components: {
         User,
-        Comment
+        CommentList
     },
     setup() {
         const route = useRoute();
@@ -34,7 +34,13 @@ export default defineComponent({
 
         getDetail();
 
+
+        onMounted(() => {
+            console.log('onMounted')
+        })
+
         return {
+            id,
             detail,
             bbsImage
         };
@@ -45,7 +51,7 @@ export default defineComponent({
 
 
 <template>
-    <div class="posts-detail">
+    <div class="posts-detail" v-if="detail">
         <img class="detail-pic" :src="bbsImage" />
 
         <div class="title">{{ detail.title }}</div>
@@ -58,7 +64,9 @@ export default defineComponent({
 
         <div class="rich-text" v-html="detail.detail"></div>
 
-        <comment></comment>
+        <div class="comment">
+            <comment-list :id="id"></comment-list>
+        </div>
     </div>
 </template>
 
@@ -86,6 +94,12 @@ export default defineComponent({
         line-height: 20px;
 
         margin-bottom: 20px;
+    }
+
+    .comment {
+        margin: $minus-padding-defalut-left-right;
+        padding: $padding-defalut-left-right;
+        background: linear-gradient(135deg, #ffffff, #dcdde2);
     }
 }
 </style>

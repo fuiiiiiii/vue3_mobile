@@ -1,9 +1,24 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 import LikeBtn from '../LikeBtn.vue';
 export default defineComponent({
     components: {
         LikeBtn
+    },
+    props: {
+        comment: {
+            type: Object
+        }
+    },
+    setup(props) {
+
+        const commentInfo = computed(() => {
+            return props.comment || {}
+        });
+
+        return {
+            commentInfo
+        }
     }
 })
 </script>
@@ -11,36 +26,38 @@ export default defineComponent({
 <template>
     <div class="comments">
         <div class="flex-r j-c-between">
-            <dvi class="head flex-r">
+            <div class="head flex-r">
                 <img
+                    v-if="commentInfo.user"
                     class="img"
-                    src="https://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTK7lzKiadPtDv6PibJ9iblohUwp7nRPBlTF6Bu6RCvKtav23NVKDyOJTDJvmWTPiadFcPicxl0uK1yIPLg/132"
+                    :src="commentInfo.user.portraitImgUrl"
                 />
-                <span class="u-name">hahAS</span>
+                <span
+                    v-if="commentInfo.user"
+                    class="u-name"
+                >{{ commentInfo.user.nickname }}</span>
 
                 <img
+                    v-if="commentInfo.user && commentInfo.user.extendField1 == 'LYRIQ'"
                     class="u-lab"
-                    src="https://cms-oss.sgmlink.com/6142b893a990ded5af008249/618cd1e3ecacded5901771e4/tag_reserve.png"
+                    :src="commentInfo.user.subscriptionUrl"
                 />
-            </dvi>
-            <div class="like-bor flex-r a-i-center">
-                <span>100</span>
+            </div>
+            <div class="like-bor flex-r">
+                <span>{{ commentInfo.praiseCount }}</span>
                 <div class="like">
-                    <like-btn></like-btn>
+                    <like-btn :praisedFlag="commentInfo.praisedFlag"></like-btn>
                 </div>
             </div>
         </div>
-        <div class="comment-con">哈哈哈哈快快快</div>
-        <div class="time">10小时</div>
+        <div class="comment-con">{{ commentInfo.commentContent }}</div>
+        <div class="time" v-html="commentInfo.timespan"></div>
     </div>
 </template>
 
 <style lang="scss" scoped>
-@import url("./commemt.scss");
-.like-bor {
-    font-size: 12px;
-    color: #999999;
-}
+@import url("./comment.scss");
+
 .comment-con {
     padding-left: 40px;
     box-sizing: border-box;

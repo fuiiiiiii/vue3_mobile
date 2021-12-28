@@ -62,5 +62,8 @@ export default defineComponent({
   video {
     width: 100%;
   }
+  .edui-faked-video {
+    max-width: 100%;
+  }
 }
 </style>
