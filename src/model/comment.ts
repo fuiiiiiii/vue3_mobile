@@ -8,8 +8,8 @@ interface commentParams {
     pageNum: Number,
     pageSize: Number,
     sortField?: String,
-    sortOrder: String,
-    status: Number,
+    sortOrder?: String,
+    status?: Number,
     essenceFlag?: String
 }
 

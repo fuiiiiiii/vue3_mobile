@@ -1,10 +1,11 @@
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted, nextTick } from 'vue';
 import { apiGetDetail } from '@/model/find';
 import { useRoute } from "vue-router";
 import User from "@components/User.vue";
 import CommentList from '@components/comment/CommentList.vue';
+import { watchScrollBottom } from '@/utils/index';
 
 export default defineComponent({
     components: {
@@ -13,6 +14,7 @@ export default defineComponent({
     },
     setup() {
         const route = useRoute();
+        let comment = ref();
 
         let detail: any = ref({});
         let bbsImage = ref("");
@@ -35,14 +37,23 @@ export default defineComponent({
         getDetail();
 
 
+
         onMounted(() => {
-            console.log('onMounted')
+
+            nextTick(() => {
+                watchScrollBottom(function () {
+                    comment.value.getAllComment();
+                });
+            });
+
+
         })
 
         return {
             id,
             detail,
-            bbsImage
+            bbsImage,
+            comment
         };
     }
 
@@ -65,7 +76,7 @@ export default defineComponent({
         <div class="rich-text" v-html="detail.detail"></div>
 
         <div class="comment">
-            <comment-list :id="id"></comment-list>
+            <comment-list ref="comment" :id="id"></comment-list>
         </div>
     </div>
 </template>
